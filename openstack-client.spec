@@ -42,7 +42,6 @@ Group:            Development/Languages
 
 Requires:         python-argparse
 Requires:         python-simplejson
-Requires:         python-json
 Requires:         python-httplib2
 Requires:         python-prettytable
 
