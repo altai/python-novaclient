@@ -1,6 +1,6 @@
 %global os_release essex
 
-%global with_doc 0
+%global enable_doc 0
 %global prj client
 %global commit_id 0
 
@@ -28,6 +28,10 @@ BuildRequires:    python-devel
 BuildRequires:    python-setuptools
 BuildRequires:    python-nose
 
+%if 0%{?enable_doc}
+BuildRequires:    python-sphinx make
+%endif
+
 Requires:         python-argparse
 Requires:         python-httplib2
 Requires:         python-prettytable
@@ -39,7 +43,7 @@ the OpenStack Nova API.
 
 This package contains command-line script.
 
-%if 0%{?with_doc}
+%if 0%{?enable_doc}
 %package doc
 Summary:          Documentation for OpenStack Nova API
 Group:            Documentation
@@ -68,7 +72,7 @@ rm -rf %{buildroot}
 # Delete tests
 rm -fr %{buildroot}%{python_sitelib}/tests
 
-%if 0%{?with_doc}
+%if 0%{?enable_doc}
 export PYTHONPATH="$( pwd ):$PYTHONPATH"
 sphinx-build -b html docs html
 
@@ -84,7 +88,7 @@ rm -rf %{buildroot}
 %{_bindir}/*
 %{python_sitelib}/*
 
-%if 0%{?with_doc}
+%if 0%{?enable_doc}
 %defattr(-,root,root,-)
 %files doc
 %doc html
