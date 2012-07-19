@@ -29,7 +29,8 @@ class BootingManagerWithFind(base.ManagerWithFind):
               reservation_id=None, return_raw=False, min_count=None,
               max_count=None, security_groups=None, key_name=None,
               availability_zone=None, block_device_mapping=None, nics=None,
-              scheduler_hints=None, config_drive=None, **kwargs):
+              scheduler_hints=None, config_drive=None, admin_pass=None,
+              **kwargs):
         """
         Create (boot) a new server.
 
@@ -81,6 +82,8 @@ class BootingManagerWithFind(base.ManagerWithFind):
             body['os:scheduler_hints'] = scheduler_hints
         if config_drive:
             body["server"]["config_drive"] = config_drive
+        if admin_pass:
+            body["server"]["adminPass"] = admin_pass
         if not min_count:
             min_count = 1
         if not max_count:
