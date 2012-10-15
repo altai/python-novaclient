@@ -1,7 +1,4 @@
-%global os_release essex
-
 %global enable_doc 0
-%global prj client
 %global commit_id 0
 
 %if ! (0%{?fedora} > 12 || 0%{?rhel} > 5)
@@ -9,7 +6,7 @@
 %endif
 
 
-Name:             python-novaclient-%{os_release}
+Name:             python-novaclient
 Epoch:            1
 Version:          2012.1.2
 Release:          1
@@ -26,7 +23,6 @@ BuildRoot:        %{_tmppath}/%{name}-%{version}
 BuildArch:        noarch
 BuildRequires:    python-devel
 BuildRequires:    python-setuptools
-BuildRequires:    python-nose
 
 %if 0%{?enable_doc}
 BuildRequires:    python-sphinx make
@@ -34,7 +30,9 @@ BuildRequires:    python-sphinx make
 
 Requires:         python-argparse
 Requires:         python-httplib2
-Requires:         python-prettytable
+Requires:         python-prettytable = 0.6
+
+Obsoletes:        %{name}-essex
 
 %description
 This is a client for the OpenStack Nova API. There's a Python API (the
