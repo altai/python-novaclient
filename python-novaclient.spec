@@ -1,4 +1,3 @@
-%global enable_doc 0
 %global commit_id 0
 
 %if ! (0%{?fedora} > 12 || 0%{?rhel} > 5)
@@ -24,8 +23,9 @@ BuildArch:        noarch
 BuildRequires:    python-devel
 BuildRequires:    python-setuptools
 
-%if 0%{?enable_doc}
-BuildRequires:    python-sphinx make
+%if 0%{?with_doc}
+BuildRequires:    python-sphinx10
+BuildRequires:    make
 %endif
 
 Requires:         python-argparse
@@ -41,7 +41,7 @@ the OpenStack Nova API.
 
 This package contains command-line script.
 
-%if 0%{?enable_doc}
+%if 0%{?with_doc}
 %package doc
 Summary:          Documentation for OpenStack Nova API
 Group:            Documentation
@@ -70,12 +70,11 @@ rm -rf %{buildroot}
 # Delete tests
 rm -fr %{buildroot}%{python_sitelib}/tests
 
-%if 0%{?enable_doc}
-export PYTHONPATH="$( pwd ):$PYTHONPATH"
-sphinx-build -b html docs html
+%if 0%{?with_doc}
+make -C doc html PYTHONPATH=%{buildroot}%{python_sitelib} SPHINXBUILD=sphinx-1.0-build
 
 # Fix hidden-file-or-dir warnings
-rm -fr .doctrees .buildinfo
+rm -fr doc/build/html/.buildinfo
 %endif
 
 %clean
@@ -83,13 +82,14 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
+%doc README* LICENSE HACKING*
 %{_bindir}/*
 %{python_sitelib}/*
 
-%if 0%{?enable_doc}
+%if 0%{?with_doc}
 %defattr(-,root,root,-)
 %files doc
-%doc html
+%doc doc/build/html
 %endif
 
 %changelog
